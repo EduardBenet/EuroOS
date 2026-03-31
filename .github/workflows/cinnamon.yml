@@ -1,7 +1,7 @@
 name: Cinnamon Azure VHD Build
 
 on:
-  workflow_dispatch:        # manual trigger
+  workflow_dispatch:
   push:
     branches: [main]
 
@@ -10,12 +10,12 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      RESOURCE_GROUP:"euro_images"
-      STORAGE_ACCOUNT:"euroimages"
-      CONTAINER:"vhds"
-      VHD_NAME:"linuxmint-cinnamon-azure.vhd"
-      REGION:"westeurope"
-      IMAGE_NAME:"linuxmint-22-3-cinnamon"
+      RESOURCE_GROUP: "euro_images"
+      STORAGE_ACCOUNT: "euroimages"
+      CONTAINER: "vhds"
+      VHD_NAME: "linuxmint-cinnamon-azure.vhd"
+      REGION: "westeurope"
+      IMAGE_NAME: "linuxmint-22-3-cinnamon"
 
     steps:
       - name: Checkout repository
@@ -37,7 +37,7 @@ jobs:
         run: packer build linuxmint-azure.pkr.hcl
 
       - name: Convert to VHD
-        run: bash scripts/convert-to-vhd.sh      
+        run: bash scripts/convert-to-vhd.sh
 
       - name: Log in to Azure
         uses: azure/login@v2
@@ -49,7 +49,7 @@ jobs:
 
       - name: Create Azure Managed Image
         run: |
-          VHD_URI="https://${STORAGE_ACCOUNT}.blob.core.windows.net/${CONTAINER}/${IMAGE_NAME}.vhd"
+          VHD_URI="https://${STORAGE_ACCOUNT}.blob.core.windows.net/${CONTAINER}/${VHD_NAME}"
           az image create \
             --resource-group "$RESOURCE_GROUP" \
             --name "$IMAGE_NAME" \
