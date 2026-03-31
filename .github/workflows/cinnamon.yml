@@ -10,13 +10,12 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      RESOURCE_GROUP="euro_images"
-      STORAGE_ACCOUNT="euroimages"
-      CONTAINER="vhds"
-      VHD_NAME="linuxmint-cinnamon-azure.vhd"
-      REGION="westeurope"
-      IMAGE_NAME="linuxmint-22-3-cinnamon"
-      AZURE_CREDENTIALS=${{ secrets.AZURE_CREDENTIALS }}
+      RESOURCE_GROUP:"euro_images"
+      STORAGE_ACCOUNT:"euroimages"
+      CONTAINER:"vhds"
+      VHD_NAME:"linuxmint-cinnamon-azure.vhd"
+      REGION:"westeurope"
+      IMAGE_NAME:"linuxmint-22-3-cinnamon"
 
     steps:
       - name: Checkout repository
