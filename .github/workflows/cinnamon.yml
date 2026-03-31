@@ -15,7 +15,7 @@ jobs:
       CONTAINER="vhds"
       VHD_NAME="linuxmint-cinnamon-azure.vhd"
       REGION="westeurope"
-      IMAGE_NAME: "linuxmint-22-3-cinnamon"
+      IMAGE_NAME="linuxmint-22-3-cinnamon"
 
     steps:
       - name: Checkout repository
