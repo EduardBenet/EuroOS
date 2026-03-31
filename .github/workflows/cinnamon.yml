@@ -1,0 +1,82 @@
+name: Cinnamon Azure VHD Build
+
+on:
+  workflow_dispatch:        # manual trigger
+  push:
+    branches: [main]
+
+jobs:
+  build-vhd:
+    runs-on: ubuntu-latest
+
+    env:
+      RESOURCE_GROUP="euro_images"
+      STORAGE_ACCOUNT="euroimages"
+      CONTAINER="vhds"
+      VHD_NAME="linuxmint-cinnamon-azure.vhd"
+      REGION="westeurope"
+      IMAGE_NAME: "linuxmint-22-3-cinnamon"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qemu-kvm qemu-utils packer jq
+
+      - name: Verify KVM is available
+        run: |
+          kvm-ok || (echo "KVM not available on this runner" && exit 1)
+
+      - name: Download & verify ISO
+        run: bash scripts/download-iso.sh
+
+      - name: Build with Packer
+        run: packer build linuxmint-azure.pkr.hcl
+
+      - name: Convert to VHD
+        run: bash scripts/convert-to-vhd.sh      
+
+      - name: Log in to Azure
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Upload to Azure
+        run: bash scripts/upload-to-azure.sh
+
+      - name: Create Azure Managed Image
+        run: |
+          VHD_URI="https://${STORAGE_ACCOUNT}.blob.core.windows.net/${CONTAINER}/${IMAGE_NAME}.vhd"
+          az image create \
+            --resource-group "$RESOURCE_GROUP" \
+            --name "$IMAGE_NAME" \
+            --os-type Linux \
+            --source "$VHD_URI" \
+            --location "$REGION" \
+            --hyper-v-generation V1
+          echo "Managed image created: $IMAGE_NAME"
+
+      - name: Print image details
+        run: |
+          az image show \
+            --resource-group "$RESOURCE_GROUP" \
+            --name "$IMAGE_NAME" \
+            --query "{name:name, location:location, state:provisioningState}" \
+            --output table
+
+jobs:
+  build-vhd:
+    runs-on: ubuntu-latest   # GitHub-hosted runners support KVM
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install deps
+        run: sudo apt-get install -y qemu-kvm packer
+      - name: Download & verify ISO
+        run: bash scripts/download-iso.sh
+      
+
+        env:
+          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
