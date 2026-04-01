@@ -39,9 +39,10 @@ source "qemu" "linuxmint" {
     "--<enter>"
   ]
 
-  ssh_username     = "packer"
-  ssh_password     = "packer"
-  ssh_timeout      = "60m"
+  ssh_username              = "packer"
+  ssh_password              = "packer"
+  ssh_timeout               = "60m"
+  temporary_key_pair_type   = "ed25519"
   shutdown_command = "echo 'packer' | sudo -S shutdown -P now"
 }
 
