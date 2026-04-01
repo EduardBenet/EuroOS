@@ -27,11 +27,11 @@ source "qemu" "linuxmint" {
   http_directory = "http"
 
   # Boot Linux Mint's Casper/Ubiquity installer unattended
-  boot_wait = "5s"
+  boot_wait = "15s"
   boot_command = [
     "<esc><wait>",
     "/casper/vmlinuz ",
-    "initrd=/casper/initrd.lz ",
+    "initrd=/casper/initrd ",
     "boot=casper ",
     "automatic-ubiquity ",
     "quiet splash noprompt ",
