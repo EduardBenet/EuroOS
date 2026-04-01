@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
+      ISO_URL: "https://mirrors.univ-reims.fr/IMAGES/mint/stable/22.3/linuxmint-22.3-cinnamon-64bit.iso"
+      CHECKSUM_URL: "https://mirrors.kernel.org/linuxmint/stable/22.3/sha256sum.txt"
       RESOURCE_GROUP: "euro_images"
       STORAGE_ACCOUNT: "euroimages"
       CONTAINER: "vhds"

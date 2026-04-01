@@ -8,7 +8,7 @@ packer {
   }
 }
 
-variable "iso_url"      { default = "linuxmint.iso" }
+variable "iso_url"      { default = "linuxmint-22.3-cinnamon-64bit.iso" }
 variable "iso_checksum" { default = "sha256:a081ab202cfda17f6924128dbd2de8b63518ac0531bcfe3f1a1b88097c459bd4" }
 variable "disk_size"    { default = "30720" }  # 30 GB in MB
 

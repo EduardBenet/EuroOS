@@ -1,8 +1,7 @@
 # Linux Mint 22.3 (latest as of early 2026)
-ISO_URL="https://mirrors.univ-reims.fr/IMAGES/mint/stable/22.3/linuxmint-22.3-cinnamon-64bit.iso"
-CHECKSUM_URL="https://mirrors.kernel.org/linuxmint/stable/22.3/sha256sum.txt"
+ISO_FILENAME=$(basename "$ISO_URL")
 
-wget -q "$ISO_URL" -O linuxmint.iso
+wget -q "$ISO_URL" -O "$ISO_FILENAME"
 wget -q "$CHECKSUM_URL" -O sha256sum.txt
 
 # Verify checksum
