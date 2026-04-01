@@ -40,6 +40,9 @@ jobs:
       - name: Download & verify ISO
         run: bash scripts/download-iso.sh
 
+      - name: Initialize Packer plugins
+        run: packer init linuxmint-azure.pkr.hcl
+
       - name: Build with Packer
         run: packer build linuxmint-azure.pkr.hcl
 
