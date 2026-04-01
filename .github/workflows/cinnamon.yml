@@ -36,6 +36,7 @@ jobs:
       - name: Verify KVM is available
         run: |
           kvm-ok || (echo "KVM not available on this runner" && exit 1)
+          sudo chmod 666 /dev/kvm
 
       - name: Download & verify ISO
         run: bash scripts/download-iso.sh
@@ -44,6 +45,8 @@ jobs:
         run: packer init linuxmint-azure.pkr.hcl
 
       - name: Build with Packer
+        env:
+          PACKER_LOG: 1
         run: packer build linuxmint-azure.pkr.hcl
 
       - name: Convert to VHD
