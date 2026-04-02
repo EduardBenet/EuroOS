@@ -31,7 +31,7 @@ source "qemu" "linuxmint" {
   boot_command = [
     "<esc><wait>",
     "/casper/vmlinuz ",
-    "initrd=/casper/initrd ",
+    "initrd=/casper/initrd.lz",
     "boot=casper ",
     "automatic-ubiquity ",
     "quiet splash noprompt ",
